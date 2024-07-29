@@ -9,6 +9,9 @@ style.textContent = `
 transform: translateY(0);
 box-shadow: 0px 1px 5px #00000050;
 }
+.pfp {
+  position: relative;
+}
 .pfp::after {
   content: '';
   position: absolute;
