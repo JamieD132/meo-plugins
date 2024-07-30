@@ -102,5 +102,12 @@
     "description": "Removes signatures from posts and replies.",
     "script": "https://raw.githubusercontent.com/JoshAtticus/meo-plugins/main/blockSignatures.js",
     "flags": "0"
+},
+{
+    "name": "Custom Emoji",
+    "creator": "ArrowAced",
+    "description": "Allows you to use any custom Discord emoji in meo",
+    "script": "https://raw.githubusercontent.com/3r1s-s/meo-plugins/main/customemoji.js",
+    "flags": "0"
 }
 ]
