@@ -1,5 +1,5 @@
 const actuallyerimd = erimd;
-actuallyerimd = function(content) {
+erimd = function(content) {
     // eri moment
     const text = content
         .replace(/\bcat\b/gi, "__TEMP_CAT__")  
