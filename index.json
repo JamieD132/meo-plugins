@@ -109,5 +109,12 @@
     "description": "Allows you to use any custom Discord emoji in meo",
     "script": "https://raw.githubusercontent.com/3r1s-s/meo-plugins/main/customemoji.js",
     "flags": "0"
+},
+{
+    "name": "cars :3",
+    "creator": "RealNotFenixio",
+    "description": "swaps car and cat with each other, silly",
+    "script": "https://raw.githubusercontent.com/3r1s-s/meo-plugins/main/cars.js",
+    "flags": "0"
 }
 ]
