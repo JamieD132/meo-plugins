@@ -1,10 +1,9 @@
-cars = function(content) {
+const actuallyerimd = erimd;
+actuallyerimd = function(content) {
     // eri moment
     const text = content
         .replace(/\bcat\b/gi, "__TEMP_CAT__")  
         .replace(/\bcar\b/gi, "cat")           
         .replace(/__TEMP_CAT__/gi, "car");
-    return actuallycars(text);
+    return actuallyerimd(text);
 }
-
-const actuallycars = cars;
