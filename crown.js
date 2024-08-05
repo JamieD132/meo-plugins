@@ -1,1 +1,1 @@
-document.alert("Please disable this plugin ill fix later");
+window.alert("Please disable this plugin ill fix later");
