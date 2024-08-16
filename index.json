@@ -133,7 +133,7 @@
 },
 {
     "name": "no more start page",
-    "creator": "noodles",
+    "creator": "Supernoodles99",
     "description": "removes the start page button because who uses that",
     "script": "https://raw.githubusercontent.com/3r1s-s/meo-plugins/main/nomorestartpage.js",
     "flags": "0"
