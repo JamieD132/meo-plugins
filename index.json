@@ -130,5 +130,12 @@
     "description": "1st person in the userlist gets a crown emoji",
     "script": "https://raw.githubusercontent.com/3r1s-s/meo-plugins/main/crown.js",
     "flags": "0"
+},
+{
+    "name": "no more start page",
+    "creator": "noodles",
+    "description": "removes the start page button because who uses that",
+    "script": "https://raw.githubusercontent.com/3r1s-s/meo-plugins/main/nomorestartpage.js",
+    "flags": "0"
 }
 ]
