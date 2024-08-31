@@ -86,7 +86,13 @@ async function makeQuote(postid) {
             const link = document.createElement('a');
             link.href = url;
             link.download = `quote-${postid}.png`;
-            link.click();
+//          link.click();
+
+            const response = await fetch(url);
+            const blob = await response.blob();
+            const file = new File([blob], `quote-${postid}.png`, { type: blob.type });
+
+            addAttachment(file);
         } catch (err) {
             console.error(err);
         }
