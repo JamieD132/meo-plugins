@@ -125,6 +125,13 @@
     "flags": "0"
 },
 {
+    "name": "Symphony",
+    "creator": "RealNotFenixio",
+    "description": "LET ME BE PART OF YOUR SYMPHONYYYYYYYYYYY",
+    "script": "https://raw.githubusercontent.com/3r1s-s/meo-plugins/main/symphony.js",
+    "flags": "1"
+},
+{
     "name": "whar",
     "creator": "3r1s-s",
     "description": "whar",
