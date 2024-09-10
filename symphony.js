@@ -10,7 +10,7 @@ async function createVideoWithText(text) {
       img.onload = () => resolve(img);
       img.onerror = reject;
       img.crossOrigin = 'Anonymous';
-      img.src = "https://raw.githubusercontent.com/NotFenixio/meo-plugins/main/assets/symphony/symphony.jpg";
+      img.src = "https://raw.githubusercontent.com/3r1s-s/meo-plugins/main/assets/symphony/symphony.jpg";
     });
   };
 
@@ -36,7 +36,7 @@ async function createVideoWithText(text) {
 
   const audio = new Audio();
   audio.crossOrigin = 'Anonymous';
-  audio.src = 'https://raw.githubusercontent.com/NotFenixio/meo-plugins/main/assets/symphony/symphony.mp3';
+  audio.src = 'https://raw.githubusercontent.com/3r1s-s/meo-plugins/main/assets/symphony/symphony.mp3';
 
   await drawImageAndText();
 
