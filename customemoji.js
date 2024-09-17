@@ -24,6 +24,11 @@ loadpicker = function () {
     const customemjsec = document.querySelector('#custom.emojisec');
     if (customemjsec) {
         customEmoji.forEach((emoji) => {
+            if (emoji[0] == "a") {   
+                let [name, id] = [emoji[1], emoji[2]]
+                customemjsec.insertAdjacentHTML("beforeend", `<button class="emojibutton" title="${name}" onclick="addemoji('<:${name}:${id}>')"><img src="https://cdn.discordapp.com/emojis/${id}.gif?size=96&quality=lossless" alt="${name}" height="32px"></button>`)
+                return;
+            }
             let [name, id] = [emoji[0], emoji[1]]
             customemjsec.insertAdjacentHTML("beforeend", `<button class="emojibutton" title="${name}" onclick="addemoji('<:${name}:${id}>')"><img src="https://cdn.discordapp.com/emojis/${id}.webp?size=96&quality=lossless" alt="${name}" height="32px"></button>`)
         });
@@ -65,15 +70,22 @@ function customEmojiModal() {
 
 function addCustomEmoji() {
     const emojiInput = document.querySelector("#custom-emoji-input").value.trim();
-    if (!/^<:.+:\d+>$/.test(emojiInput)) {
+    if (/^<:.+:\d+>$/.test(emojiInput)) {       
+      customEmoji.push(emojiInput.slice(2, -1).split(":"));
+      localStorage.setItem("customEmoji", JSON.stringify(customEmoji));
+      loadpicker();
+      emjpage("custom");
+      closemodal();
+    } else if (/^<a:.+:\d+>$/.test(emojiInput)) {       
+      customEmoji.push(["a", ...emojiInput.slice(3, -1).split(":")]);
+      localStorage.setItem("customEmoji", JSON.stringify(customEmoji));
+      loadpicker();
+      emjpage("custom");
+      closemodal();
+    } else {
         openUpdate("Invalid syntax! Please use discord emoji syntax.");
         return;
     }
-    customEmoji.push(emojiInput.slice(2, -1).split(":"));
-    localStorage.setItem("customEmoji", JSON.stringify(customEmoji));
-    loadpicker();
-    emjpage("custom");
-    closemodal();
 }
 
 // mobile version
@@ -88,6 +100,11 @@ emojimodal = function () {
     const emjmodal = document.querySelector(".customemojimodal");
     if (emjmodal) {
         customEmoji.forEach((emoji) => {
+            if (emoji[0] == "a") {   
+                let [name, id] = [emoji[1], emoji[2]]
+                emjmodal.insertAdjacentHTML("beforeend", `<button class="emojibuttonm" title="${name}" onclick="addemoji('<a:${name}:${id}>')"><img src="https://cdn.discordapp.com/emojis/${id}.gif?size=96&quality=lossless" alt="${name}" height="32px"></button>`)
+                return;
+            }
             let [name, id] = [emoji[0], emoji[1]]
             emjmodal.insertAdjacentHTML("beforeend", `<button class="emojibuttonm" title="${name}" onclick="addemoji('<:${name}:${id}>')"><img src="https://cdn.discordapp.com/emojis/${id}.webp?size=96&quality=lossless" alt="${name}" height="32px"></button>`)
         });
@@ -106,11 +123,16 @@ function customEmojiModalMobile() {
 
 function addCustomEmojiMobile() {
     const emojiInput = document.querySelector("#custom-emoji-input").value.trim();
-    if (!/^<:.+:\d+>$/.test(emojiInput)) {
+    if (/^<:.+:\d+>$/.test(emojiInput)) {        
+        customEmoji.push(emojiInput.slice(2, -1).split(":"));
+        localStorage.setItem("customEmoji", JSON.stringify(customEmoji));
+        emojimodal()
+    } else if (/^<a:.+:\d+>$/.test(emojiInput)) {        
+        customEmoji.push(["a",...emojiInput.slice(3, -1).split(":")]);
+        localStorage.setItem("customEmoji", JSON.stringify(customEmoji));
+        emojimodal()
+    } else {
         openUpdate("Invalid syntax! Please use discord emoji syntax.");
         return;
     }
-    customEmoji.push(emojiInput.slice(2, -1).split(":"));
-    localStorage.setItem("customEmoji", JSON.stringify(customEmoji));
-    emojimodal()
 }
