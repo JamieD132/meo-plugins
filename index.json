@@ -1,4 +1,4 @@
-[{
+,[{
     "name": "Make it a Quote",
     "creator": "Eris",
     "description": "Reply to a post with /quote to make a quote!",
@@ -158,5 +158,12 @@
     "description": "disables fancy punctuation (including truncation of punctuation (fuck that))",
     "script": "https://raw.githubusercontent.com/3r1s-s/meo-plugins/main/!!!!!!.js",
     "flags": "0"
+},
+{
+    "name":"Spinning Cheese",
+    "creator":"JamieD132",
+    "descrption":"A cool style that makes cheese spin",
+    "script":"https://raw.githubusercontent.com/3r1s-s/meo-plugins/main/spinning_cheese.js",
+    "flags":"0"
 }
 ]
