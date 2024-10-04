@@ -76,6 +76,13 @@
     "flags": "0"
 },
 {
+    "name": "Flashlight",
+    "creator": "ArrowAced",
+    "description": "i canbt see anythimg!!1 !",
+    "script": "https://raw.githubusercontent.com/3r1s-s/meo-plugins/main/flashlight.js",
+    "flags": "0"
+},
+{
     "name": "Meo ADs",
     "creator": "3r1s-s",
     "description": "I love adware!!",
