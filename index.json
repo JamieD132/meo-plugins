@@ -172,5 +172,12 @@
     "description": "A style that makes cheese spin",
     "script": "https://raw.githubusercontent.com/3r1s-s/meo-plugins/main/spinning_cheese.js",
     "flags": "0"
+},
+{
+    "name": "explosion",
+    "creator": "ArrowAced",
+    "description": "a",
+    "script": "https://raw.githubusercontent.com/3r1s-s/meo-plugins/main/explosion.js",
+    "flags": "0"
 }
 ]
