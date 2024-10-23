@@ -9,7 +9,7 @@ function createButtonContainer(p) {
         <div class='toolButton tooltip' onclick='sharepost()' aria-label="share" data-tooltip="${lang().action.share}" title="share" tabindex="0">
             <svg viewBox='0 0 20 20' fill='currentColor' width='19' height='19'><path d='M12.9297 3.25007C12.7343 3.05261 12.4154 3.05226 12.2196 3.24928L11.5746 3.89824C11.3811 4.09297 11.3808 4.40733 11.5739 4.60245L16.5685 9.64824C16.7614 9.84309 16.7614 10.1569 16.5685 10.3517L11.5739 15.3975C11.3808 15.5927 11.3811 15.907 11.5746 16.1017L12.2196 16.7507C12.4154 16.9477 12.7343 16.9474 12.9297 16.7499L19.2604 10.3517C19.4532 10.1568 19.4532 9.84314 19.2604 9.64832L12.9297 3.25007Z'></path><path d='M8.42616 4.60245C8.6193 4.40733 8.61898 4.09297 8.42545 3.89824L7.78047 3.24928C7.58466 3.05226 7.26578 3.05261 7.07041 3.25007L0.739669 9.64832C0.5469 9.84314 0.546901 10.1568 0.739669 10.3517L7.07041 16.7499C7.26578 16.9474 7.58465 16.9477 7.78047 16.7507L8.42545 16.1017C8.61898 15.907 8.6193 15.5927 8.42616 15.3975L3.43155 10.3517C3.23869 10.1569 3.23869 9.84309 3.43155 9.64824L8.42616 4.60245Z'></path></svg>
         </div>
-        <div class='toolButton tooltip' onclick='loadReactionPickerPc("${p._id}")' aria-label="react" data-tooltip="React" title="react" tabindex="0">
+        <div class='toolButton tooltip' onclick='loadReactionPicker("${p._id}","buttonContainer")' aria-label="react" data-tooltip="React" title="react" tabindex="0">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M4 9.77778C4 9.77778 5.33333 10.2222 8 10.2222C10.6667 10.2222 12 9.77778 12 9.77778C12 9.77778 11.1111 11.5556 8 11.5556C4.88889 11.5556 4 9.77778 4 9.77778Z" fill="currentColor"></path>
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M16 8C16 12.4184 12.4183 16 8 16C3.58171 16 0 12.4184 0 8C0 3.5816 3.58171 0 8 0C12.4183 0 16 3.5816 16 8ZM8 9.33377C6.38976 9.33377 5.32134 9.14627 4 8.88932C3.69824 8.83116 3.11111 8.88932 3.11111 9.77821C3.11111 11.556 5.15332 13.7782 8 13.7782C10.8462 13.7782 12.8889 11.556 12.8889 9.77821C12.8889 8.88932 12.3018 8.83073 12 8.88932C10.6787 9.14627 9.61024 9.33377 8 9.33377ZM5.33333 7.55556C5.94699 7.55556 6.44444 6.85894 6.44444 6C6.44444 5.14106 5.94699 4.44444 5.33333 4.44444C4.71967 4.44444 4.22222 5.14106 4.22222 6C4.22222 6.85894 4.71967 7.55556 5.33333 7.55556ZM11.7778 6C11.7778 6.85894 11.2803 7.55556 10.6667 7.55556C10.053 7.55556 9.55556 6.85894 9.55556 6C9.55556 5.14106 10.053 4.44444 10.6667 4.44444C11.2803 4.44444 11.7778 5.14106 11.7778 6Z" fill="currentColor"></path>
@@ -293,8 +293,14 @@ function loadpost(p) {
                 background: var(--accent-color);
                 transition-duration: 0.3s;
                 cursor: pointer;
+                gap: 0.5lh;
             `
-            reaction.innerText = `${r.emoji} ${r.count}`;
+            if (r.emoji.length > 15) {
+                r.emojihtml = `<img src="https://uploads.meower.org/emojis/${r.emoji}" class="emoji">`;
+            } else {
+                r.emojihtml = `<span>${r.emoji}</span>`;
+            }
+            reaction.innerHTML = `${r.emojihtml} <span>${r.count}</span>`;
             reaction.addEventListener("click", ()=>{
                 r.count = r.user_reacted ? r.count - 1 : r.count + 1;
                 r.user_reacted = !r.user_reacted;
@@ -314,7 +320,7 @@ function loadpost(p) {
                     });
                 }
                 reaction.style.border = `var(${r.user_reacted ? "--primary" : "--accent-down"}) 2px solid`;
-                reaction.innerText = `${r.emoji} ${r.count}`;
+                reaction.innerHTML = `${r.emojihtml} <span>${r.count}</span>`;
                 if (r.count == 0) { reaction.remove(); }
                 if (reactionsContainer.children.length < 1) { reactionsContainer.remove(); }
             })
@@ -349,14 +355,14 @@ function loadpost(p) {
     }
 }
 
-function loadReactionPicker(postId) {
+async function loadReactionPicker(postId,containerType) {
     const post = document.getElementById(postId);
-    if (!post.getElementsByClassName("mobileContainer")[0].getElementsByClassName("toolbarContainer")[0].getElementsByClassName("picker")[0]) {
+    if (!post.getElementsByClassName(containerType)[0].getElementsByClassName("toolbarContainer")[0].getElementsByClassName("picker")[0]) {
         const picker = document.createElement("div")
         picker.classList.add("picker");
         picker.style = `
-            width: 170px;
-            height: 100px;
+            width: 240px;
+            height: 150px;
             background: var(--accent-color);
             position: absolute;
             top: 30px;
@@ -364,21 +370,122 @@ function loadReactionPicker(postId) {
             padding: 5px;
             border-radius: 10px;
             border: var(--primary) 2px solid;
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-            grid-template-rows: 1fr 1fr 1fr;
+            display: flex;
+            gap: 8px;
             z-index: 1;
-            gap: 2px;
         `;
-        const emojis = ["😀","😃","😄","😁","😆","😅","😂","🤣","😭","😉","😗","😙","😚","😘","😍"];
-        emojis.forEach(emoji => {
+        
+        const PickerSide = document.createElement("div");
+        PickerSide.style = `
+            width: 210px;
+            height: 150px;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+            grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+            gap: 2px;
+            overflow-y: auto;
+        `;
+        
+        const CategoriesSide = document.createElement("div");
+        CategoriesSide.style = `
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            width: 30px;
+            height: 150px;
+        `
+        
+        const chats = await (await fetch(`https://api.meower.org/chats`, { 
+            headers: { token: localStorage.getItem("token") }
+        })).json();
+        const customemojis = [];
+        chats.autoget.forEach(c => {
+            c.emojis.forEach(me => {
+                customemojis.push(me._id);
+            })
+        })
+        
+        const categories = {
+            "Faces": {
+                emoji: "😀",
+                emojis: ["😀","😃","😄","😁","😆","😅","😂","🤣","😭","😉","😗","😙","😚","😘","😍","🙃","🙂","😊","☺️","😌","😏","🤤","😋","😛","😝","😜","😔","😬","😑","😐","😶","🤐","🤔","🤗","😱","😒","🙄","😤","😠","😡","😞","😓","😟","😥","😢","☹️","🙁","😕","😰","😨","😧","😦","😮","😯","😲","😳","😖","😣","😩","😫","😵","🤢","😴","😪","🤧","🤒","🤕","😷","🤥","😇","🤠","🤑","🤓","😎","🤡","😈","👿","👻","💀","☠️","👹","👺","🎃","💩","🤖","👽","👾","🌚","🌝","🌞","🌛","🌜","🙈","🙉","🙊","😺","😸","😹","😻","😼","😽","🙀","😿","😾","💫","⭐","🌟","✨","💥","💨","💦","💤","🕳","️🔥","💯","🎉","❤️","💛","💚","💙","💜","🖤","💘","💝","💖","💗","💓","💞","💕","💌","💟","♥️","❣️","💔","💋","👥","👤","🗣","️👣","👀","👁","️👄","👅","👃","👂","💪","👏","👍","👎","🙌","👐","🤜","🤛","✊","👊","👋","🤚","🖐","️✋","🖖","🤘","✌️","🤞","🤙","👌","👉","👈","☝","️👆","👇","🖕","✍","️🤳","🙏","💅","🤝"]
+            },
+            "People": {
+                emoji: "🚶",
+                emojis: ["🙇","🙋","💁","🙆","🙅","🤷","🤦","🙍","🙎","💆","💇","🛀","🛌","🚶","🏃","🤸","🏋️","⛹️","🤾","🚴","🚵","🤼","🤹","🏌️","🏇","🤺","⛷️","🏂","🏄","🚣","🏊","🤽","👼","🎅","🤶","💂","🤴","👸","🤵","👰","👷","👮","🕵️","👳","👲","👶","👦","👧","👨","👩","👴","👵","👱","🕴️","💃","🕺","👯","👭","👫","👬","💏","👩‍❤️‍💋‍👨","👨‍❤️‍💋‍👨","👩‍❤️‍💋‍👩","💑","👩‍❤️‍👨","👨‍❤️‍👨","👩‍❤️‍👩","👪","👨‍👩‍👦","👨‍👩‍👧","👨‍👩‍👧‍👦","👨‍👩‍👦‍👦","👨‍👩‍👧‍👧","👨‍👨‍👦","👨‍👨‍👧","👨‍👨‍👧‍👦","👨‍👨‍👦‍👦","👨‍👨‍👧‍👧","👩‍👩‍👦","👩‍👩‍👧","👩‍👩‍👧‍👦","👩‍👩‍👦‍👦","👩‍👩‍👧‍👧","🤰","🗣️","👤","👥","👣"]
+            },
+            "Nature": {
+                emoji: "🌷",
+                emojis: ["💐","🌹","🥀","🌺","🌷","🌸","💮","🏵️","🌻","🌼","🍂","🍁","🍄","🌾","🌱","🌿","🍃","☘️","🍀","🌵","🌴","🌳","🌲","⛰️","🏔️","❄️","☃️","⛄","🌫️","🌡️","🔥","🌋","🏜️","🏞️","🏝️","🏖️","🌅","🌄","🌈","🌊","🌬️","🌀","🌪️","⚡","☔","💧","☁️","🌨️","🌧️","🌩️","⛈️","🌦️","🌥️","⛅","🌤️","☀️","🌞","🌝","🌚","🌜","🌛","⭐","🌟","✨","💫","🌙","☄️","🕳️","🌠","🌌","🌍","🌎","🌏","🌑","🌒","🌓","🌔","🌕","🌖","🌗","🌘","🙈","🙉","🙊","🐵","🦁","🐯","🐱","🐶","🐺","🐻","🐨","🐼","🐹","🐭","🐰","🦊","🐮","🐷","🐽","🐗","🦄","🐴","🐲","🦎","🐉","🐢","🐊","🐍","🐸","🐇","🐁","🐀","🐈","🐩","🐕","🐖","🐎","🐄","🐂","🐃","🐏","🐑","🐐","🦌","🐘","🦏","🐆","🐅","🐒","🦍","🐪","🐫","🐿️","🦇","🐦","🐓","🐔","🐣","🐤","🐥","🦅","🦉","🕊️","🦆","🦃","🐧","🦈","🐬","🐋","🐳","🐟","🐠","🐡","🦐","🦀","🦑","🐙","🦂","🕷️","🕸️","🐚","🐌","🐜","🐝","🐞","🦋","🐛","🐾"]
+            },
+            "Food": {
+                emoji: "🍔",
+                emojis: ["🍓","🍒","🍎","🍉","🍑","🍊","🍍","🍌","🍋","🍈","🍏","🍐","🥝","🍇","🍅","🌶️","🥕","🌽","🥒","🥑","🍠","🍆","🥔","🌰","🥜","🍞","🥐","🥖","🥞","🍳","🥚","🧀","🥓","🍗","🍖","🍔","🌭","🍟","🍕","🌮","🌯","🥙","🥘","🍝","🥗","🍲","🍛","🍜","🍣","🍤","🍚","🍱","🍢","🍙","🍘","🍥","🍡","🍧","🍨","🍦","🍰","🍮","🎂","🍭","🍬","🍫","🍩","🍪","🍯","🍿","🥛","🍼","🍵","☕","🍺","🍻","🥂","🍾","🍷","🥃","🍸","🍹","🍶","🍴","🥄","🔪","🍽️"]
+            },
+            "Custom": {
+                emoji: "🐈",
+                emojis: customemojis
+            }
+        };
+        let category = "Faces";
+        Object.entries(categories).forEach(([ctg,categorydata]) => {
             const ebtn = document.createElement("button");
             ebtn.style = `
                 width: 30px;
                 height: 30px;
                 background: var(--accent-down);
             `;
-            ebtn.innerText = emoji;
+            ebtn.innerText = categorydata.emoji;
+            ebtn.addEventListener("click", ()=>{
+                PickerSide.replaceChildren([]);
+                category = ctg;
+                categories[category].emojis.forEach(emoji => {
+                    const ebtn = document.createElement("button");
+                    ebtn.style = `
+                        width: 30px;
+                        height: 30px;
+                        background: var(--accent-down);
+                    `;
+                    let emojihtml = "";
+                    if (emoji.length > 15) {
+                        emojihtml = `<img src="https://uploads.meower.org/emojis/${emoji}" class="emoji">`;
+                    } else {
+                        emojihtml = `<span>${emoji}</span>`;
+                    }
+            ebtn.innerHTML = emojihtml;
+                    ebtn.addEventListener("click", ()=>{
+                        fetch(`https://api.meower.org/posts/${postId}/reactions/${encodeURIComponent(emoji)}`, {
+                            method: "POST",
+                            headers: {
+                                token: localStorage.getItem("token")
+                            }
+                        }).then(async ()=>{
+                            const replyresp = await fetch(`https://api.meower.org/posts?id=${postId}`, {
+                                headers: { token: localStorage.getItem("token") }
+                            });
+                            loadpost(await replyresp.json());
+                            picker.remove();
+                        });
+                    })
+                    PickerSide.appendChild(ebtn);
+                })
+            })
+            CategoriesSide.appendChild(ebtn);
+        })
+        categories[category].emojis.forEach(emoji => {
+            const ebtn = document.createElement("button");
+            ebtn.style = `
+                width: 30px;
+                height: 30px;
+                background: var(--accent-down);
+            `;
+            let emojihtml = "";
+            if (emoji.length > 15) {
+                emojihtml = `<img src="https://uploads.meower.org/emojis/${emoji}" class="emoji">`;
+            } else {
+                emojihtml = `<span>${emoji}</span>`;
+            }
+            ebtn.innerHTML = emojihtml;
             ebtn.addEventListener("click", ()=>{
                 fetch(`https://api.meower.org/posts/${postId}/reactions/${encodeURIComponent(emoji)}`, {
                     method: "POST",
@@ -393,61 +500,11 @@ function loadReactionPicker(postId) {
                     picker.remove();
                 });
             })
-            picker.appendChild(ebtn);
+            PickerSide.appendChild(ebtn);
         })
-        post.getElementsByClassName("mobileContainer")[0].getElementsByClassName("toolbarContainer")[0].appendChild(picker);
-    }
-    
-    closemodal();
-}
-
-function loadReactionPickerPc(postId) {
-    const post = document.getElementById(postId);
-    if (!post.getElementsByClassName("buttonContainer")[0].getElementsByClassName("toolbarContainer")[0].getElementsByClassName("picker")[0]) {
-        const picker = document.createElement("div")
-        picker.classList.add("picker");
-        picker.style = `
-            width: 170px;
-            height: 100px;
-            background: var(--accent-color);
-            position: absolute;
-            top: 30px;
-            right: 0px;
-            padding: 5px;
-            border-radius: 10px;
-            border: var(--primary) 2px solid;
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-            grid-template-rows: 1fr 1fr 1fr;
-            z-index: 1;
-            gap: 2px;
-        `;
-        const emojis = ["😀","😃","😄","😁","😆","😅","😂","🤣","😭","😉","😗","😙","😚","😘","😍"];
-        emojis.forEach(emoji => {
-            const ebtn = document.createElement("button");
-            ebtn.style = `
-                width: 30px;
-                height: 30px;
-                background: var(--accent-down);
-            `;
-            ebtn.innerText = emoji;
-            ebtn.addEventListener("click", ()=>{
-                fetch(`https://api.meower.org/posts/${postId}/reactions/${encodeURIComponent(emoji)}`, {
-                    method: "POST",
-                    headers: {
-                        token: localStorage.getItem("token")
-                    }
-                }).then(async ()=>{
-                    const replyresp = await fetch(`https://api.meower.org/posts?id=${postId}`, {
-                        headers: { token: localStorage.getItem("token") }
-                    });
-                    loadpost(await replyresp.json());
-                    picker.remove();
-                });
-            })
-            picker.appendChild(ebtn);
-        })
-        post.getElementsByClassName("buttonContainer")[0].getElementsByClassName("toolbarContainer")[0].appendChild(picker);
+        picker.appendChild(CategoriesSide);
+        picker.appendChild(PickerSide);
+        post.getElementsByClassName(containerType)[0].getElementsByClassName("toolbarContainer")[0].appendChild(picker);
     }
     
     closemodal();
@@ -479,7 +536,7 @@ function openModal(postId) {
                 <button class="modal-button" onclick="reportModal(event)"><div>${lang().action.report}</div><div class="modal-icon"><svg height="20" width="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M20 6.00201H14V3.00201C14 2.45001 13.553 2.00201 13 2.00201H4C3.447 2.00201 3 2.45001 3 3.00201V22.002H5V14.002H10.586L8.293 16.295C8.007 16.581 7.922 17.011 8.076 17.385C8.23 17.759 8.596 18.002 9 18.002H20C20.553 18.002 21 17.554 21 17.002V7.00201C21 6.45001 20.553 6.00201 20 6.00201Z"></path></svg></div></button>      
                 ` : ''}
                 <button class="modal-button" onclick="mdlshare(event)"><div>${lang().action.share}</div><div class="modal-icon"><svg viewBox="0 0 20 20" fill="currentColor" width="18" height="18"><path d="M12.9297 3.25007C12.7343 3.05261 12.4154 3.05226 12.2196 3.24928L11.5746 3.89824C11.3811 4.09297 11.3808 4.40733 11.5739 4.60245L16.5685 9.64824C16.7614 9.84309 16.7614 10.1569 16.5685 10.3517L11.5739 15.3975C11.3808 15.5927 11.3811 15.907 11.5746 16.1017L12.2196 16.7507C12.4154 16.9477 12.7343 16.9474 12.9297 16.7499L19.2604 10.3517C19.4532 10.1568 19.4532 9.84314 19.2604 9.64832L12.9297 3.25007Z"></path><path d="M8.42616 4.60245C8.6193 4.40733 8.61898 4.09297 8.42545 3.89824L7.78047 3.24928C7.58466 3.05226 7.26578 3.05261 7.07041 3.25007L0.739669 9.64832C0.5469 9.84314 0.546901 10.1568 0.739669 10.3517L7.07041 16.7499C7.26578 16.9474 7.58465 16.9477 7.78047 16.7507L8.42545 16.1017C8.61898 15.907 8.6193 15.5927 8.42616 15.3975L3.43155 10.3517C3.23869 10.1569 3.23869 9.84309 3.43155 9.64824L8.42616 4.60245Z"></path></svg></div></button>      
-                <button class="modal-button" onclick="loadReactionPicker('${postId}')"><div>React</div><div class="modal-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <button class="modal-button" onclick="loadReactionPicker('${postId}','mobileContainer')"><div>React</div><div class="modal-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M4 9.77778C4 9.77778 5.33333 10.2222 8 10.2222C10.6667 10.2222 12 9.77778 12 9.77778C12 9.77778 11.1111 11.5556 8 11.5556C4.88889 11.5556 4 9.77778 4 9.77778Z" fill="currentColor"></path>
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M16 8C16 12.4184 12.4183 16 8 16C3.58171 16 0 12.4184 0 8C0 3.5816 3.58171 0 8 0C12.4183 0 16 3.5816 16 8ZM8 9.33377C6.38976 9.33377 5.32134 9.14627 4 8.88932C3.69824 8.83116 3.11111 8.88932 3.11111 9.77821C3.11111 11.556 5.15332 13.7782 8 13.7782C10.8462 13.7782 12.8889 11.556 12.8889 9.77821C12.8889 8.88932 12.3018 8.83073 12 8.88932C10.6787 9.14627 9.61024 9.33377 8 9.33377ZM5.33333 7.55556C5.94699 7.55556 6.44444 6.85894 6.44444 6C6.44444 5.14106 5.94699 4.44444 5.33333 4.44444C4.71967 4.44444 4.22222 5.14106 4.22222 6C4.22222 6.85894 4.71967 7.55556 5.33333 7.55556ZM11.7778 6C11.7778 6.85894 11.2803 7.55556 10.6667 7.55556C10.053 7.55556 9.55556 6.85894 9.55556 6C9.55556 5.14106 10.053 4.44444 10.6667 4.44444C11.2803 4.44444 11.7778 5.14106 11.7778 6Z" fill="currentColor"></path>
                 </svg></div></button>      
@@ -490,6 +547,7 @@ function openModal(postId) {
                     mdlt.innerHTML += `
                     <button class="modal-button" onclick="modPostModal('${postId}')"><div>${lang().action.mod}</div><div class="modal-icon"><svg width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M19 6.00001C15.56 6.00001 12.826 2.43501 12.799 2.39801C12.421 1.89801 11.579 1.89801 11.201 2.39801C11.174 2.43501 8.44 6.00001 5 6.00001C4.447 6.00001 4 6.44801 4 7.00001V14C4 17.807 10.764 21.478 11.534 21.884C11.68 21.961 11.84 21.998 12 21.998C12.16 21.998 12.32 21.96 12.466 21.884C13.236 21.478 20 17.807 20 14V7.00001C20 6.44801 19.553 6.00001 19 6.00001ZM15 16L12 14L9 16L10 13L8 11H11L12 8.00001L13 11H16L14 13L15 16Z"></path></svg></div></button>      
                 `;
+                }
 
                 const postDiv = document.getElementById(postId);
                 const usernameElement = postDiv.querySelector('#username').innerText;
@@ -507,5 +565,4 @@ function openModal(postId) {
             }
         }
     }  
-}
 
