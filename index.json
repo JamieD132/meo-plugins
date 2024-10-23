@@ -187,4 +187,11 @@
     "script": "https://raw.githubusercontent.com/3r1s-s/meo-plugins/main/reactions.js",
     "flags": "0"
 }
+{
+    "name": "I hate home",
+    "creator": "finley",
+    "description": "Get rid of home!",
+    "script": "https://raw.githubusercontent.com/3r1s-s/meo-plugins/main/ihatehome.js",
+    "flags": "1"
+}
 ]
