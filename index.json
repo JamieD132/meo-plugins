@@ -6,6 +6,13 @@
     "flags": "0"
 },
 {
+    "name": "i rember 😃",
+    "creator": "ArrowAced",
+    "description": "Makes meo not clear your data on logout",
+    "script": "https://raw.githubusercontent.com/3r1s-s/meo-plugins/main/rember.js",
+    "flags": "0"
+},
+{
     "name": "Meo/Leo Glass",
     "creator": "JoshAtticus",
     "description": "Glass theme for Meo",
@@ -186,7 +193,7 @@
     "description": "Allows you to react to Posts in Meo!",
     "script": "https://raw.githubusercontent.com/3r1s-s/meo-plugins/main/reactions.js",
     "flags": "0"
-}
+},
 {
     "name": "I hate home",
     "creator": "finley",
