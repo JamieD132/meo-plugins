@@ -200,5 +200,12 @@
     "description": "Get rid of home!",
     "script": "https://raw.githubusercontent.com/3r1s-s/meo-plugins/main/ihatehome.js",
     "flags": "1"
+},
+{
+    "name": "unregistered hypercam 2",
+    "creator": "Supernoodles99",
+    "description": "how to get free club penguin hacks 100% working",
+    "script": "https://raw.githubusercontent.com/3r1s-s/meo-plugins/main/unregisteredhypercam2.js",
+    "flags": "0"
 }
 ]
