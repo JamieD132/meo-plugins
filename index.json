@@ -207,5 +207,12 @@
     "description": "how to get free club penguin hacks 100% working",
     "script": "https://raw.githubusercontent.com/3r1s-s/meo-plugins/main/unregisteredhypercam2.js",
     "flags": "0"
+},
+{
+    "name": "UwU-fy",
+    "creator": "WlodekM",
+    "description": "UwU-ifies your messages wike t-this",
+    "script": "https://raw.githubusercontent.com/3r1s-s/meo-plugins/main/uwu.js",
+    "flags": "0"
 }
 ]
