@@ -235,7 +235,7 @@ function applyRules(content) {
     return content;
 }
 
-String.prototype.uwu = () => {this = applyRules(this)}
+String.prototype.uwu = (() => {return applyRules(this)})
 
 function doMixin(func, origFunc) {
     return function() {func();origFunc();}
