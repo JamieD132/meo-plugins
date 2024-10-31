@@ -4,7 +4,6 @@ function doMixin(func, origFunc) {
     return function() {func();origFunc();}
 }
 
-log("Doing signature mixin")
 sendpost = doMixin(function () {
     const msgbox = document.getElementById('msg');
     const messageToAddAfterMessage = "\n"+(localStorage.getItem('signature') ?? "");
@@ -15,7 +14,6 @@ sendpost = doMixin(function () {
 
 const settingsPages = {}
 
-log("Adding signatures settings page")
 settingsPages['signatures'] = {
     displayName: "Signatures",
     func: function load() {
@@ -28,7 +26,6 @@ settingsPages['signatures'] = {
     }
 }
 
-logCategory("API", "#9400D3", "Doing mixin for settings pages")
 let realLoadstgs = loadstgs;
 loadstgs = function () {
     realLoadstgs()
