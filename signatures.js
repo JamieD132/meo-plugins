@@ -26,6 +26,8 @@ settingsPages['signatures'] = {
     }
 }
 
+windo.settingsPages = settingsPages
+
 let realLoadstgs = loadstgs;
 loadstgs = function () {
     realLoadstgs()
