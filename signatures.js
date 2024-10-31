@@ -21,7 +21,7 @@ settingsPages['signatures'] = {
         let pageContainer = document.querySelector(".settings");
         pageContainer.innerHTML = `
             <h1>Signatures</h1>
-            <textarea value="${String(localStorage.getItem("signature") ?? "").replaceAll('"', "&quot;")}" placeholder="Type your signature here" onchange="localStorage.setItem('signature', this.value)"></textarea>
+            <textarea placeholder="Type your signature here" onchange="localStorage.setItem('signature', this.value)">${String(localStorage.getItem("signature") ?? "").replaceAll('<', "&lt;")}</textarea>
         `;
     }
 }
