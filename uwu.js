@@ -235,8 +235,6 @@ function applyRules(content) {
     return content;
 }
 
-String.prototype.uwu = (() => {return applyRules(this)})
-
 function doMixin(func, origFunc) {
     return function() {func();origFunc();}
 }
@@ -244,5 +242,5 @@ function doMixin(func, origFunc) {
 console.log("Doing signature mixin")
 sendpost = doMixin(function () {
     const msgbox = document.getElementById('msg');
-    msgbox.value = msgbox.value.uwu()
+    msgbox.value = applyRules(msgbox.value)
 }, sendpost)
