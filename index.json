@@ -214,5 +214,12 @@
     "description": "UwU-ifies your messages wike t-this",
     "script": "https://raw.githubusercontent.com/3r1s-s/meo-plugins/main/uwu.js",
     "flags": "0"
+},
+{
+    "name": "Signatures",
+    "creator": "WlodekM",
+    "description": "A plugin that allows you to create your own post signatures",
+    "script": "https://raw.githubusercontent.com/3r1s-s/meo-plugins/main/signatures.js",
+    "flags": "0"
 }
 ]
