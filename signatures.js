@@ -1,19 +1,17 @@
 if(!localStorage.hasOwnProperty("signature")) localStorage.setItem("signature", "-# <:disceye:1256330753151733883> Only you can see this • [Dismiss message](https://wlodekm.github.io/is-you/)")
 
-wl.events.addEventListener("ready", function () {
-    function doMixin(func, origFunc) {
-    	return function() {func();origFunc();}
+function doMixin(func, origFunc) {
+    return function() {func();origFunc();}
+}
+
+log("Doing signature mixin")
+sendpost = doMixin(function () {
+    const msgbox = document.getElementById('msg');
+    const messageToAddAfterMessage = "\n"+(localStorage.getItem('signature') ?? "");
+    if(!msgbox.value.includes(messageToAddAfterMessage) && msgbox.value != '') {
+        msgbox.value += messageToAddAfterMessage;
     }
-    
-    log("Doing signature mixin")
-    sendpost = doMixin(function () {
-        const msgbox = document.getElementById('msg');
-        const messageToAddAfterMessage = "\n"+(localStorage.getItem('signature') ?? "");
-    	if(!msgbox.value.includes(messageToAddAfterMessage) && msgbox.value != '') {
-            msgbox.value += messageToAddAfterMessage;
-        }
-    }, sendpost)
-})
+}, sendpost)
 
 const settingsPages = {}
 
