@@ -29,8 +29,6 @@ settingsPages['signatures'] = {
 let realLoadstgs = loadstgs;
 loadstgs = function () {
     realLoadstgs()
-    wl.events.fire("pageChange")
-    wl.events.fire("page-" + page)
     navc = document.querySelector(".nav-top");
     for (pageid in settingsPages) {
         const pageData = settingsPages[pageid];
